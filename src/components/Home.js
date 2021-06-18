@@ -6,10 +6,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthProvider";
 
-export const coinapi_key = "01b0b977c227bfb4ed21e7c8d8e9883551f5f3da";
+export const coinapi_key = process.env.REACT_APP_COINAPI_KEY;
 export const coinapi_uri =
   "https://api.nomics.com/v1/currencies/ticker?key=" + coinapi_key + "&ids=";
-export const restAPI_uri = "http://localhost:4000/api";
+export const restAPI_uri = process.env.REACT_APP_RESTAPI_URI;
 
 export default function Home() {
   const { user } = useAuth();
