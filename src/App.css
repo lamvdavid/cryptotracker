@@ -1,5 +1,15 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background-color: #947bd3;
+}
+
 .App {
+  height: 100%;
   text-align: center;
+  background-color: #947bd3;
+  color: white;
 }
 
 .App-logo {
@@ -14,18 +24,73 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  background-color: #04395e;
+  width: 100%;
+  min-height: 10vh;
+  justify-content: flex-end;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding: 12px;
   color: white;
+}
+
+.App-header a {
+  color: white;
+  text-decoration: none;
+}
+
+.account {
+  font-size: small;
+  align-self: flex-end;
+  float: right;
+  color: white;
+}
+
+.error {
+  background-color: pink;
+  color: red;
 }
 
 .App-link {
   color: #61dafb;
+}
+
+.search-result {
+  margin: 10px 0px;
+}
+
+.cryptos {
+  width: 100%;
+  margin: 5px 0px;
+  background-color: #947bd3;
+}
+
+.crypto-card {
+  background-color: #04395e;
+}
+
+.crypto {
+  padding: 0.5em;
+}
+
+.crypto-symbol {
+  background-color: #031d44;
+  color: white;
+}
+.crypto-price {
+  background-color: #031d44;
+  color: white;
+}
+
+.search {
+  color: white;
+  display: flex;
+  padding: 1em;
+}
+
+.delete-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @keyframes App-logo-spin {
