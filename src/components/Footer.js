@@ -9,7 +9,8 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "100%",
     backgroundColor: "#04395e",
     color: "white",
-    paddingBottom: "8px",
+    padding: "8px 0px",
+    marginTop: 16,
   },
   logo: {
     maxWidth: "100%",
