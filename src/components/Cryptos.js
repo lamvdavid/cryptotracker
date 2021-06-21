@@ -47,7 +47,7 @@ export default function Cryptos({
         <TextField
           value={filter}
           onChange={handleChange}
-          label="Filter"
+          label="Filter by symbol"
         ></TextField>
         <IconButton onClick={() => updateCryptos(getCoins())}>
           <RefreshIcon />
@@ -63,6 +63,7 @@ export default function Cryptos({
                 crypto={crypto}
                 deleteClick={deleteClick}
                 updateCrypto={updateCrypto}
+                isSearch={false}
               />
             </Grid>
           );

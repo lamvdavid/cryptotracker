@@ -1,18 +1,16 @@
 import {
   Button,
-  Card,
   Grid,
   InputAdornment,
   makeStyles,
   TextField,
-  Typography,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { React, useState } from "react";
 import axios from "axios";
 import { coinapi_uri, restAPI_uri } from "./Home";
 import { useAuth } from "../context/AuthProvider";
-import SearchResult from "./SearchResult";
+import Crypto from "./Crypto";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,10 +62,7 @@ export default function Search({ setCryptos, cryptos }) {
                 if (
                   !cryptos.some((coin) => coin.symbol === res.data[0].symbol)
                 ) {
-                  setCryptos([
-                    ...cryptos,
-                    { symbol: res.data[0].symbol, price: res.data[0].price },
-                  ]);
+                  setCryptos([res.data[0], ...cryptos]);
                   console.log("Added " + searchInput);
                 }
               })
@@ -120,7 +115,7 @@ export default function Search({ setCryptos, cryptos }) {
         </div>
       </Grid>
       <Grid item xs={12}>
-        {coinInfo && <SearchResult crypto={coinInfo}></SearchResult>}
+        {coinInfo && <Crypto crypto={coinInfo} isSearch={true}></Crypto>}
       </Grid>
     </Grid>
   );
