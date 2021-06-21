@@ -12,6 +12,7 @@ import { React, useState } from "react";
 import axios from "axios";
 import { coinapi_uri, restAPI_uri } from "./Home";
 import { useAuth } from "../context/AuthProvider";
+import SearchResult from "./SearchResult";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +26,7 @@ export default function Search({ setCryptos, cryptos }) {
   const classes = useStyles();
   const { user } = useAuth();
   const [searchInput, setSearchInput] = useState("");
-  const [coinInfo, setCoinInfo] = useState({});
+  const [coinInfo, setCoinInfo] = useState();
 
   //Send GET request to CoinAPI
   const searchClick = () => {
@@ -33,7 +34,15 @@ export default function Search({ setCryptos, cryptos }) {
       axios
         .get(coinapi_uri + searchInput)
         .then((res) => {
-          setCoinInfo(...res.data);
+          console.log();
+          if (res.data.length) {
+            setCoinInfo(...res.data);
+          } else {
+            setCoinInfo({
+              symbol: "No coin found",
+              price: "Check if symbol input correctly",
+            });
+          }
         })
         .catch((err) => console.log(err));
     }
@@ -41,28 +50,39 @@ export default function Search({ setCryptos, cryptos }) {
 
   //Send POST request to MongoDB
   const addClick = () => {
-    axios
-      .get(coinapi_uri + searchInput)
-      .then((res) => {
-        setCoinInfo(...res.data);
-        axios
-          .post(restAPI_uri + "/users/" + user.email + "/add-crypto", {
-            symbol: res.data[0].id,
-          })
-          .then(() => {
-            if (!cryptos.some((coin) => coin.symbol === res.data[0].symbol)) {
-              setCryptos([
-                ...cryptos,
-                { symbol: res.data[0].symbol, price: res.data[0].price },
-              ]);
-              console.log("Added " + searchInput);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => console.log(err));
+    if (searchInput) {
+      axios
+        .get(coinapi_uri + searchInput)
+        .then((res) => {
+          if (res.data.length) {
+            setCoinInfo(...res.data);
+            axios
+              .post(restAPI_uri + "/users/" + user.email + "/add-crypto", {
+                symbol: res.data[0].id,
+              })
+              .then(() => {
+                if (
+                  !cryptos.some((coin) => coin.symbol === res.data[0].symbol)
+                ) {
+                  setCryptos([
+                    ...cryptos,
+                    { symbol: res.data[0].symbol, price: res.data[0].price },
+                  ]);
+                  console.log("Added " + searchInput);
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else {
+            setCoinInfo({
+              symbol: "No coin found",
+              price: "Check if symbol input correctly",
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   //Only allow A-z in the search input
@@ -71,6 +91,7 @@ export default function Search({ setCryptos, cryptos }) {
     value = value.replace(/[^A-Za-z]/gi, "");
     setSearchInput(value.toUpperCase());
   };
+
   return (
     <Grid container className="search" justify="center" alignItems="center">
       <Grid item xs={12}>
@@ -99,14 +120,7 @@ export default function Search({ setCryptos, cryptos }) {
         </div>
       </Grid>
       <Grid item xs={12}>
-        <Card id="search-result" className="crypto-card">
-          <Typography variant="h4" className="crypto-symbol">
-            {coinInfo.symbol}
-          </Typography>
-          <Typography variant="h4" className="crypto-price">
-            {coinInfo.price && "$" + coinInfo.price}
-          </Typography>
-        </Card>
+        {coinInfo && <SearchResult crypto={coinInfo}></SearchResult>}
       </Grid>
     </Grid>
   );
