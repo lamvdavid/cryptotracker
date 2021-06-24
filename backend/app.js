@@ -36,6 +36,10 @@ const server = app.listen(port, () => {
   console.log("Connected to port " + port);
 });
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("../build"));
+}
+
 app.use((req, res, next) => {
   next(createError(404));
 });
