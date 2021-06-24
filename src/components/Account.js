@@ -37,6 +37,14 @@ const useStyles = makeStyles((theme) => ({
       margin: "8px",
     },
   },
+  message: {
+    "& > *": {
+      backgroundColor: "rgb(237, 247, 237)",
+      color: "rgb(30, 70, 32)",
+      padding: "8px",
+      margin: "8px",
+    },
+  },
 }));
 
 export default function Account() {
@@ -44,6 +52,7 @@ export default function Account() {
   const { updatePassword } = useAuth();
 
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [pass, setPass] = useState("");
 
@@ -52,10 +61,14 @@ export default function Account() {
 
     try {
       setError("");
+      setMessage("");
       setLoading(true);
       await updatePassword(pass);
+      setMessage("Password Updated");
     } catch {
-      setError("Failed to update password");
+      setError(
+        "Failed to update password. Trying logging out and logging back in"
+      );
     }
     setLoading(false);
   }
@@ -70,7 +83,14 @@ export default function Account() {
           <Grid item xs={12} className={classes.error}>
             {error && (
               <Card>
-                <Typography className="error">{error}</Typography>
+                <Typography>{error}</Typography>
+              </Card>
+            )}
+          </Grid>
+          <Grid item xs={12} className={classes.message}>
+            {message && (
+              <Card>
+                <Typography>{message}</Typography>
               </Card>
             )}
           </Grid>

@@ -5,6 +5,7 @@ import {
   makeStyles,
   TextField,
   Typography,
+  Paper,
 } from "@material-ui/core";
 import axios from "axios";
 import React, { useState } from "react";
@@ -80,63 +81,65 @@ export default function Signup() {
       <Grid item xs={12}>
         <Typography variant="h4">Sign Up</Typography>
       </Grid>
-      <form className={classes.form} onSubmit={handleSubmit}>
-        <Grid item xs={12} className={classes.error}>
-          {error && (
-            <Card>
-              <Typography className="error">{error}</Typography>
-            </Card>
-          )}
-        </Grid>
+      <Paper>
+        <form className={classes.form} onSubmit={handleSubmit}>
+          <Grid item xs={12} className={classes.error}>
+            {error && (
+              <Card>
+                <Typography className="error">{error}</Typography>
+              </Card>
+            )}
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              id="email"
+              label="Email"
+              value={email}
+              type="email"
+              fullWidth={true}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              id="password"
+              label="Password"
+              value={pass}
+              type="password"
+              fullWidth={true}
+              onChange={(e) => setPass(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              id="password-confirm"
+              label="Password Confirmation"
+              value={confirm}
+              type="password"
+              fullWidth={true}
+              onChange={(e) => setConfirm(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} className={classes.button}>
+            <Button
+              disabled={loading}
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              Sign Up
+            </Button>
+          </Grid>
+        </form>
         <Grid item xs={12}>
-          <TextField
-            required
-            id="email"
-            label="Email"
-            value={email}
-            type="email"
-            fullWidth={true}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <Typography variant="body1">
+            Already have an account? <Link to="/login">Log in</Link>
+          </Typography>
         </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            id="password"
-            label="Password"
-            value={pass}
-            type="password"
-            fullWidth={true}
-            onChange={(e) => setPass(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            id="password-confirm"
-            label="Password Confirmation"
-            value={confirm}
-            type="password"
-            fullWidth={true}
-            onChange={(e) => setConfirm(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12} className={classes.button}>
-          <Button
-            disabled={loading}
-            variant="contained"
-            color="primary"
-            type="submit"
-          >
-            Sign Up
-          </Button>
-        </Grid>
-      </form>
-      <Grid item xs={12}>
-        <Typography variant="body1">
-          Already have an account? <Link to="/login">Log in</Link>
-        </Typography>
-      </Grid>
+      </Paper>
     </Grid>
   );
 }

@@ -21,6 +21,7 @@ export default function Home() {
       axios.get(restAPI_uri + "/users/" + user.email).then((res) => {
         //Get coins from database using logged in user
         let coins = "";
+
         res.data[0]["cryptos"].map((coin) => {
           return (coins += coin + ",");
         });
